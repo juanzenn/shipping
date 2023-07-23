@@ -17,6 +17,10 @@
 }
 
 body {
+  @apply font-sans text-base;
+}
+
+body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
