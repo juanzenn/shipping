@@ -1,6 +1,7 @@
 "use client";
 import { useToast } from "@/components/ui/use-toast";
 import { supabaseClient } from "@/lib/supabase";
+import { AuthError } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
@@ -19,6 +20,26 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  function handleError(error: AuthError) {
+    toast({
+      title: "Oops! Something went wrong.",
+      description: error.message,
+      variant: "destructive",
+    });
+  }
+
+  function handleSuccess() {
+    toast({
+      title: "Success!",
+      description: "You have successfully logged in.",
+    });
+
+    router.refresh();
+    router.push("/dashboard");
+
+    return;
+  }
+
   async function handleSignUp() {
     const res = await supabaseClient.auth.signUp({
       email,
@@ -28,17 +49,9 @@ export default function LoginForm() {
       },
     });
 
-    if (res.error) {
-      toast({
-        title: "Oops! Something went wrong.",
-        description: res.error.message,
-        variant: "destructive",
-      });
+    if (res.error) return handleError(res.error);
 
-      return;
-    }
-
-    router.refresh();
+    handleSuccess();
   }
 
   async function handleSignIn() {
@@ -47,17 +60,9 @@ export default function LoginForm() {
       password,
     });
 
-    if (res.error) {
-      toast({
-        title: "Oops! Something went wrong.",
-        description: res.error.message,
-        variant: "destructive",
-      });
+    if (res.error) return handleError(res.error);
 
-      return;
-    }
-
-    router.refresh();
+    handleSuccess();
   }
 
   return (
