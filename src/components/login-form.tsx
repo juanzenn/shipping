@@ -1,4 +1,5 @@
 "use client";
+import { useToast } from "@/components/ui/use-toast";
 import { supabaseClient } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -13,9 +14,10 @@ import {
 } from "./ui";
 
 export default function LoginForm() {
+  const router = useRouter();
+  const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
 
   async function handleSignUp() {
     const res = await supabaseClient.auth.signUp({
@@ -27,7 +29,11 @@ export default function LoginForm() {
     });
 
     if (res.error) {
-      alert(res.error.message);
+      toast({
+        title: "Oops! Something went wrong.",
+        description: res.error.message,
+        variant: "destructive",
+      });
 
       return;
     }
@@ -42,7 +48,11 @@ export default function LoginForm() {
     });
 
     if (res.error) {
-      alert(res.error.message);
+      toast({
+        title: "Oops! Something went wrong.",
+        description: res.error.message,
+        variant: "destructive",
+      });
 
       return;
     }
