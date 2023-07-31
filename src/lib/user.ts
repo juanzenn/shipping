@@ -1,5 +1,16 @@
+import { User } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { auth } from "./auth";
+
+export type ExtendedUser = {
+  name?: string;
+  email?: string;
+  image?: string;
+  id: User["id"];
+  emailVerified?: User["emailVerified"];
+  organizationId?: User["organizationId"];
+  role?: User["role"];
+};
 
 export async function getCurrentUser() {
   const session = await getServerSession(auth);
@@ -7,5 +18,5 @@ export async function getCurrentUser() {
 
   const { user } = session;
 
-  return user;
+  return user as ExtendedUser;
 }
