@@ -1,4 +1,4 @@
-import { getUser } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/user";
 import { redirect } from "next/navigation";
 
 export const metadata = {
@@ -6,7 +6,7 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const user = await getUser();
+  const user = await getCurrentUser();
 
   if (user) {
     redirect("/dashboard");

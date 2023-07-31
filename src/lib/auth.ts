@@ -1,14 +1,21 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import { db } from "./db";
 
-import type { Database } from "./supabase.types";
-
-export async function getUser() {
-  const supabaseServer = createServerComponentClient<Database>({
-    cookies,
-  });
-
-  const { data } = await supabaseServer.auth.getUser();
-
-  return data.user;
-}
+export const auth: NextAuthOptions = {
+  adapter: PrismaAdapter(db),
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+  ],
+  session: {
+    strategy: "jwt",
+  },
+  jwt: {},
+  pages: {
+    signIn: "/login",
+  },
+};

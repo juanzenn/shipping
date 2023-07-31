@@ -1,4 +1,4 @@
-import { getUser } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/user";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -7,7 +7,7 @@ type Props = {
 };
 
 export default async function DashboardLayout({ children }: Props) {
-  const user = await getUser();
+  const user = await getCurrentUser();
 
   if (!user) redirect("/login");
 

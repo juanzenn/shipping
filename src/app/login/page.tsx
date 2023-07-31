@@ -1,5 +1,5 @@
 import LoginForm from "@/components/login-form";
-import { getUser } from "@/lib/auth";
+import { getCurrentUser } from "@/lib/user";
 import { redirect } from "next/navigation";
 import React from "react";
 
@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 export default async function LoginPage() {
-  const user = await getUser();
+  const user = await getCurrentUser();
 
   if (user) redirect("/dashboard");
 
