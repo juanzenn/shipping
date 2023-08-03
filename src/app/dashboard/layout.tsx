@@ -10,6 +10,7 @@ export default async function DashboardLayout({ children }: Props) {
   const user = await getCurrentUser();
 
   if (!user) redirect("/login");
+  if (!user.organizationId) redirect("/organization/configure");
 
   return (
     <div>

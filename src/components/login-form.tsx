@@ -3,14 +3,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { Chrome } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Button } from "./ui/button";
 import {
-  Button,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui";
+} from "./ui/card";
 
 export default function LoginForm() {
   const router = useRouter();

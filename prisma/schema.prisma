@@ -61,6 +61,7 @@ model VerificationToken {
 model Organization {
   id    Int    @id @default(autoincrement())
   name  String
+  code  String @unique @db.VarChar(19)
   users User[]
 }
 
